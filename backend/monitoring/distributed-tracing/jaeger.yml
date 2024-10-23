@@ -1,0 +1,58 @@
+# Jaeger Configuration File: jaeger.yml
+
+# Sampling configuration
+sampling:
+  type: probabilistic
+  param: 0.1  # 10% of requests will be traced
+
+# Services configuration - defining services that will send trace data to Jaeger
+services:
+  - name: api-gateway
+    endpoint: http://jaeger-collector:14268/api/traces
+  - name: auth-service
+    endpoint: http://jaeger-collector:14268/api/traces
+  - name: user-service
+    endpoint: http://jaeger-collector:14268/api/traces
+  - name: payment-service
+    endpoint: http://jaeger-collector:14268/api/traces
+  - name: notification-service
+    endpoint: http://jaeger-collector:14268/api/traces
+
+# Propagation configuration - enables context and baggage propagation
+propagation:
+  - baggage
+  - tracecontext
+
+# Reporter configuration - setting batch reporting for efficiency
+reporter:
+  log-spans: true
+  queue-size: 100
+  flush-interval: 1s  # Frequency of sending trace data
+  endpoint: http://jaeger-collector:14268/api/traces  # Default collector endpoint
+
+# Baggage restrictions configuration - limits to prevent sensitive data exposure
+baggage_restrictions:
+  deny_baggage_on_parse_error: true
+
+# Storage type configuration - setting the backend storage type
+storage:
+  type: elasticsearch
+  options:
+    server-urls: http://elasticsearch:9200
+    index-prefix: jaeger
+    max-span-age: 72h
+
+# Security configuration - enable TLS for secure communication between services
+tls:
+  enabled: false  # Set to true if using HTTPS
+  cert-file: /etc/ssl/certs/jaeger-cert.pem
+  key-file: /etc/ssl/private/jaeger-key.pem
+  ca-file: /etc/ssl/certs/ca-cert.pem
+
+# Adjusting collector configurations for scalability
+collector:
+  num-workers: 50
+  queue-size: 2000
+  metrics-reporter:
+    endpoint: http://prometheus:9090/metrics  # For monitoring metrics with Prometheus
+ 

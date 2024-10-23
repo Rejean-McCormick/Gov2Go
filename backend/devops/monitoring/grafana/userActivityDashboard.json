@@ -1,0 +1,64 @@
+{
+  "dashboard": {
+    "title": "User Activity Dashboard",
+    "panels": [
+      {
+        "title": "User Login Counts",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(rate(user_login_total[5m]))",
+            "legendFormat": "Logins",
+            "refId": "A"
+          }
+        ],
+        "xaxis": {
+          "mode": "time"
+        },
+        "yaxis": {
+          "format": "short"
+        }
+      },
+      {
+        "title": "Page Views",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "sum(rate(page_view_total[5m])) by (page)",
+            "legendFormat": "{{page}}",
+            "refId": "B"
+          }
+        ],
+        "xaxis": {
+          "mode": "time"
+        },
+        "yaxis": {
+          "format": "short"
+        }
+      },
+      {
+        "title": "Active Sessions",
+        "type": "heatmap",
+        "targets": [
+          {
+            "expr": "sum(rate(active_sessions_total[5m]))",
+            "legendFormat": "Sessions",
+            "refId": "C"
+          }
+        ],
+        "xaxis": {
+          "mode": "time"
+        },
+        "yaxis": {
+          "format": "short"
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "10s"
+  }
+}
+ 

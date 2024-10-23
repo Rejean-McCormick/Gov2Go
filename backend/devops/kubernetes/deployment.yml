@@ -1,0 +1,55 @@
+# File: /backend/devops/kubernetes/deployment.yml
+
+apiVersion: apps/v1  # Specify the Kubernetes API version
+kind: Deployment  # Define the type of Kubernetes object
+metadata:
+  name: backend-app-deployment  # Name of the deployment
+  labels:
+    app: backend-app
+spec:
+  replicas: 3  # Number of pod replicas
+  selector:
+    matchLabels:
+      app: backend-app
+  template:
+    metadata:
+      labels:
+        app: backend-app
+    spec:
+      containers:
+      - name: backend-app-container  # Container name
+        image: backend-app:latest  # Container image
+        ports:
+        - containerPort: 3000  # Expose port 3000 for the application
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: DATABASE_URL
+          value: "postgres://db_user:db_pass@db:5432/db_name"  # Database connection string
+        - name: REDIS_URL
+          value: "redis://redis:6379"  # Redis connection string
+
+        # Health checks for the pod
+        livenessProbe:
+          httpGet:
+            path: /health  # Health check endpoint
+            port: 3000
+          initialDelaySeconds: 5  # Wait before the first probe
+          periodSeconds: 10  # Frequency of health checks
+
+        readinessProbe:
+          httpGet:
+            path: /ready  # Readiness check endpoint
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+
+        # Resource requests and limits
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+ 

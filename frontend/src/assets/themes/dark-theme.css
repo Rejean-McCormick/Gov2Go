@@ -1,0 +1,77 @@
+/* Dark Theme Variables */
+:root {
+    --background-color: #121212; /* Background for dark mode */
+    --text-color: #ffffff; /* Primary text color */
+    --link-color: #bb86fc; /* Link color for dark mode */
+    --button-background: #1f1f1f; /* Button background color */
+    --button-text: #ffffff; /* Button text color */
+    --input-background: #1e1e1e; /* Input field background */
+    --input-border-color: #333; /* Input field border color */
+    --header-footer-background: #1f1f1f; /* Header and footer background */
+}
+
+/* Applying dark theme colors to the body */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+    color: var(--link-color);
+}
+
+a:hover {
+    color: #9a63f0; /* Slightly darker shade on hover */
+    text-decoration: underline;
+}
+
+/* Button styles for dark mode */
+button {
+    background-color: var(--button-background);
+    color: var(--button-text);
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2a2a2a; /* Darker shade on hover */
+}
+
+/* Input field styles for dark mode */
+input, textarea {
+    background-color: var(--input-background);
+    border: 1px solid var(--input-border-color);
+    color: var(--text-color);
+    padding: 10px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Header and Footer styles for dark mode */
+header, footer {
+    background-color: var(--header-footer-background);
+    color: var(--text-color);
+    padding: 20px;
+}
+
+/* Additional dark mode specific styles for other components */
+.card {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.modal {
+    background-color: #1e1e1e;
+    color: var(--text-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+ 

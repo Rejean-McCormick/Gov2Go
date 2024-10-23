@@ -1,0 +1,55 @@
+// File: /backend/devops/ci-cd/jenkinsfile
+
+pipeline {
+    agent any
+
+    environment {
+        NODE_ENV = 'production'  // Set the environment variable for production
+        API_KEY = credentials('api-key-id')  // Securely use credentials stored in Jenkins
+    }
+
+    stages {
+        // Stage 1: Checkout the source code from the repository
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        // Stage 2: Install dependencies and build the application
+        stage('Build') {
+            steps {
+                sh 'npm install'  // Install all dependencies
+                sh 'npm run build'  // Build the application
+            }
+        }
+
+        // Stage 3: Run the test suite to validate the code
+        stage('Test') {
+            steps {
+                sh 'npm test'  // Run tests to ensure the code is working
+            }
+        }
+
+        // Stage 4: Deploy the application (only on the 'main' branch)
+        stage('Deploy') {
+            when {
+                branch 'main'  // Deploy only on the 'main' branch
+            }
+            steps {
+                sh 'npm run deploy'  // Deploy the application
+            }
+        }
+    }
+
+    // Post-build actions for notifications based on success or failure
+    post {
+        success {
+            echo 'Build and deployment succeeded!'  // Message upon successful build
+        }
+        failure {
+            echo 'Build failed!'  // Message if the build fails
+        }
+    }
+}
+ 

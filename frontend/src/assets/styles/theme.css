@@ -1,0 +1,82 @@
+/* Default Light Theme */
+:root {
+    /* Light theme colors */
+    --background-color: #ffffff; /* Background for light mode */
+    --text-color: #333333; /* Primary text color for light mode */
+    --link-color: #007bff; /* Link color for light mode */
+    --button-bg-color: #007bff; /* Button background color for light mode */
+    --button-text-color: #ffffff; /* Button text color */
+    --input-bg-color: #f0f0f0; /* Input field background */
+    --input-border-color: #ccc; /* Input field border */
+}
+
+/* Dark Theme Overrides */
+[data-theme='dark'] {
+    --background-color: #1a1a1a; /* Dark mode background */
+    --text-color: #f0f0f0; /* Primary text color for dark mode */
+    --link-color: #1e90ff; /* Link color for dark mode */
+    --button-bg-color: #1e90ff; /* Button background color for dark mode */
+    --button-text-color: #ffffff; /* Button text color */
+    --input-bg-color: #2e2e2e; /* Input field background */
+    --input-border-color: #555; /* Input field border */
+}
+
+/* Applying the theme variables */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition when theme changes */
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Button styling based on theme */
+button {
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--link-color); /* Slightly lighter color on hover */
+}
+
+/* Input field styling based on theme */
+input, textarea {
+    background-color: var(--input-bg-color);
+    border: 1px solid var(--input-border-color);
+    border-radius: 4px;
+    padding: 10px;
+    color: var(--text-color);
+    width: 100%;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Additional theme-based elements can be added here */
+
+/* Responsive and accessibility consideration */
+@media (prefers-color-scheme: dark) {
+    /* Automatically applies dark theme for users who prefer dark mode */
+    :root {
+        --background-color: #1a1a1a;
+        --text-color: #f0f0f0;
+        --link-color: #1e90ff;
+        --button-bg-color: #1e90ff;
+        --button-text-color: #ffffff;
+        --input-bg-color: #2e2e2e;
+        --input-border-color: #555;
+    }
+}
+ 

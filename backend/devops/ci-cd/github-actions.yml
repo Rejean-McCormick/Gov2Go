@@ -1,0 +1,71 @@
+# File: /backend/devops/ci-cd/github-actions.yml
+
+name: CI/CD Pipeline
+
+# Trigger the workflow on push or pull request events for specific branches
+on:
+  push:
+    branches:
+      - main
+      - development
+  pull_request:
+    branches:
+      - main
+      - development
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Step 2: Set up Node.js environment
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'  # Specify Node.js version
+
+    # Step 3: Cache npm dependencies to optimize build times
+    - name: Cache npm dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    # Step 4: Install dependencies
+    - name: Install Dependencies
+      run: npm install
+
+    # Step 5: Lint the code
+    - name: Lint Code
+      run: npm run lint
+
+    # Step 6: Run tests
+    - name: Run Tests
+      run: npm test
+
+    # Step 7: Build the application
+    - name: Build Application
+      run: npm run build
+
+    # Step 8: Deploy the application (only on the main branch)
+    - name: Deploy Application
+      if: github.ref == 'refs/heads/main'
+      run: npm run deploy
+
+    # Step 9: Notify on success or failure (optional)
+    # This step could be used to integrate notifications such as Slack
+    # Example:
+    # - name: Send Notification
+    #   uses: 8398a7/action-slack@v3
+    #   with:
+    #     status: ${{ job.status }}
+    #     fields: repo,message,commit,author
+    #   env:
+    #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+ 

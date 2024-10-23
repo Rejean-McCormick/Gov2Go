@@ -1,0 +1,89 @@
+# Kibana Configuration File: kibana.yml
+
+# Set Elasticsearch connection settings
+elasticsearch.hosts: ["http://localhost:9200"]
+elasticsearch.username: "kibana_system"
+elasticsearch.password: "password"
+elasticsearch.ssl.verificationMode: "full"
+
+# Set default index patterns for visualizations
+setup.kibana.index_pattern: "log-*"
+
+# Configure Kibana server settings
+server.port: 5601
+server.host: "0.0.0.0"  # Accessible on all interfaces
+server.name: "gov2go-kibana"
+
+# Enable x-pack security for role-based access control (RBAC)
+xpack.security.enabled: true
+xpack.security.encryptionKey: "your-encryption-key-here"
+
+# Set up roles and access controls
+xpack.security.roles:
+  viewer:
+    indices: ["log-*"]
+    dashboard_access: ["System Logs", "User Activity"]
+  admin:
+    indices: ["*"]
+    dashboard_access: ["*"]
+
+# Enable logging and monitoring for Kibana
+logging.verbose: true
+logging.dest: /var/log/kibana.log
+logging.quiet: false
+logging.json: true
+
+# Enable dashboard and report sharing options
+xpack.sharing.enabled: true
+xpack.reporting.enabled: true
+xpack.reporting.csv.max_size_bytes: 10485760  # 10 MB limit for CSV exports
+xpack.reporting.encryptionKey: "reporting-encryption-key"
+
+# Predefine dashboard and visualization templates
+setup.dashboard.template:
+  name: "System Logs Dashboard"
+  visualizations:
+    - type: "line"
+      index_pattern: "log-*"
+      field: "timestamp"
+      metric: "count"
+    - type: "bar"
+      index_pattern: "log-*"
+      field: "severity"
+      metric: "count"
+
+# Customize visual themes and appearance
+theme: "dark"
+dashboard.theme: "dark"
+
+# Set up data refresh intervals for performance optimization
+dashboard.refreshInterval: 30000  # Auto-refresh every 30 seconds
+
+# Enable and configure TLS for secure communication between Kibana and Elasticsearch
+server.ssl.enabled: true
+server.ssl.certificate: "/etc/kibana/certs/kibana.crt"
+server.ssl.key: "/etc/kibana/certs/kibana.key"
+
+# Enable advanced monitoring features
+xpack.monitoring.enabled: true
+xpack.monitoring.ui.enabled: true
+xpack.monitoring.kibana.collection.enabled: true
+
+# Additional settings for index lifecycle management and retention
+setup.ilm.enabled: true
+setup.ilm.policy: "log-retention-policy"
+
+# Node allocation and optimization
+node.attr.rack_id: "rack1"
+
+# Set up index patterns for Kibana
+setup.kibana.index: ".kibana"
+setup.ilm.check_exists: true
+
+# Enable connection to custom Elasticsearch endpoint if available
+elasticsearch.hosts: ["https://elasticsearch-cluster:9200"]
+elasticsearch.ssl.certificateAuthorities: ["/path/to/ca.pem"]
+
+# Miscellaneous Kibana settings
+telemetry.enabled: false
+ 

@@ -1,0 +1,92 @@
+# OpenTelemetry Configuration File: opentelemetry.yml
+
+# Exporter configuration - defining the endpoint for sending trace and metric data
+exporters:
+  otlp:
+    endpoint: "http://otel-collector:4317"
+    tls:
+      insecure: true  # Set to false and configure TLS certificates for production
+
+# Tracing configuration
+traces:
+  sampling:
+    probability: 0.2  # 20% of requests will be traced
+  resource:
+    service:
+      name: "backend-service"
+      namespace: "gov2go"
+    instrumentation:
+      - http
+      - grpc
+      - database
+      - messaging
+
+# Metrics configuration - enabling and setting up the endpoint for metrics collection
+metrics:
+  enabled: true
+  exporters:
+    prometheus:
+      endpoint: "0.0.0.0:8888"  # Endpoint for Prometheus to scrape metrics
+
+# Retention policies - specifying data retention periods for traces and metrics
+retention:
+  traces: 7d  # Retain traces for 7 days
+  metrics: 30d  # Retain metrics for 30 days
+
+# Propagation settings - configuring the trace context propagation method
+propagation:
+  - tracecontext
+  - baggage
+
+# Batch processor configuration - handling trace data batching before sending to the collector
+processors:
+  batch:
+    timeout: 5s
+    send_batch_size: 512
+    send_batch_max_size: 1024
+
+# Security and encryption settings
+security:
+  tls:
+    enabled: false  # Set to true if using HTTPS
+    cert_file: /etc/ssl/certs/otel-cert.pem
+    key_file: /etc/ssl/private/otel-key.pem
+    ca_file: /etc/ssl/certs/ca-cert.pem
+
+# Logging configuration - enabling detailed logging for troubleshooting
+logging:
+  level: "info"
+  enable_traces: true
+  enable_metrics: true
+
+# Collector settings - defining collector service options
+collector:
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+          endpoint: "0.0.0.0:4317"
+        http:
+          endpoint: "0.0.0.0:4318"
+  processors:
+    memory_limiter:
+      limit_mib: 500
+      spike_limit_mib: 150
+      check_interval: 1s
+  exporters:
+    logging:
+      loglevel: debug
+
+# Additional resource attributes for context
+resource_attributes:
+  environment: "production"  # Change to 'development' or 'staging' as needed
+  instance_id: "instance-001"
+  region: "us-central1"
+
+# Integrations with external monitoring tools like Jaeger
+jaeger:
+  endpoint: "http://jaeger-collector:14268/api/traces"
+  tls:
+    enabled: false  # Set to true for encrypted communication
+
+ 

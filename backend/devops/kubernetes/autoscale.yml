@@ -1,0 +1,28 @@
+# File: /backend/devops/kubernetes/autoscale.yml
+
+apiVersion: autoscaling/v2beta2  # Specify the autoscaling API version
+kind: HorizontalPodAutoscaler  # Define the type of Kubernetes object
+metadata:
+  name: backend-app-autoscaler  # Name of the autoscaler
+  namespace: default  # Namespace where the deployment resides
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: backend-app  # Target the backend application deployment
+  minReplicas: 2  # Minimum number of pods
+  maxReplicas: 10  # Maximum number of pods
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 75  # Target CPU usage threshold
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80  # Target memory usage threshold
+ 

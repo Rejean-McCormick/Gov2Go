@@ -1,0 +1,36 @@
+# File: /backend/devops/monitoring/prometheus.yml
+
+global:
+  scrape_interval: 15s  # How often to scrape targets
+  evaluation_interval: 15s  # How often to evaluate rules
+
+# Retention settings for collected metrics
+storage:
+  retention: 30d  # Retain metrics for 30 days
+
+# Scrape configurations for collecting metrics from services
+scrape_configs:
+  # Scrape backend application metrics
+  - job_name: 'backend-app'
+    static_configs:
+      - targets: ['localhost:9090']  # Replace with backend application endpoint
+
+  # Scrape node exporter for system metrics
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['localhost:9100']  # Replace with node exporter endpoint
+
+  # Scrape database metrics (e.g., PostgreSQL)
+  - job_name: 'db-metrics'
+    static_configs:
+      - targets: ['localhost:9187']  # Replace with database metrics exporter
+
+# Alert configuration and alertmanager integration
+rule_files:
+  - 'alert.rules'  # Define alert rules in this file
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['localhost:9093']  # Alertmanager endpoint for notifications
+ 

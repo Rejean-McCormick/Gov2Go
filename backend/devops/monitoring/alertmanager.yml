@@ -1,0 +1,59 @@
+# File: /backend/devops/monitoring/alertmanager.yml
+
+global:
+  resolve_timeout: 5m  # Time after which resolved alerts are no longer notified
+
+route:
+  receiver: 'slack-notifications'  # Default receiver for alerts
+  group_by: ['alertname']  # Group alerts by their name
+  group_wait: 10s  # Wait before sending the first alert
+  group_interval: 10m  # Time to wait before sending a new alert for the same group
+  repeat_interval: 1h  # Time to wait before resending the same alert
+
+receivers:
+  # Slack Notifications
+  - name: 'slack-notifications'
+    slack_configs:
+      - api_url: '<SLACK_WEBHOOK_URL>'  # Replace with actual Slack webhook URL
+        channel: '#alerts'  # Slack channel for alerts
+        text: "{{ .CommonAnnotations.summary }}"  # Message text with alert summary
+
+  # Email Notifications
+  - name: 'email-notifications'
+    email_configs:
+      - to: 'admin@example.com'  # Replace with actual admin email
+        from: 'alerts@example.com'  # Sender email address
+
+groups:
+  - name: backend-app-alerts
+    rules:
+    # High CPU Usage Alert
+    - alert: HighCPUUsage
+      expr: node_cpu_seconds_total > 80  # Trigger when CPU usage exceeds 80%
+      for: 5m  # Alert if sustained for 5 minutes
+      labels:
+        severity: critical
+      annotations:
+        summary: "High CPU usage on {{ $labels.instance }}"
+        description: "CPU usage has been above 80% for over 5 minutes."
+
+    # Service Down Alert
+    - alert: ServiceDown
+      expr: up == 0  # Trigger when the service is down
+      for: 2m  # Alert if down for 2 minutes
+      labels:
+        severity: critical
+      annotations:
+        summary: "Service is down"
+        description: "The service has been down for 2 minutes."
+
+    # High Memory Usage Alert
+    - alert: HighMemoryUsage
+      expr: node_memory_usage_bytes > 90  # Trigger when memory usage exceeds 90%
+      for: 10m  # Alert if sustained for 10 minutes
+      labels:
+        severity: warning
+      annotations:
+        summary: "High memory usage on {{ $labels.instance }}"
+        description: "Memory usage has exceeded 90% for 10 minutes."
+ 

@@ -1,0 +1,42 @@
+# File: /backend/devops/docker/docker-compose.yml
+
+version: '3.8'  # Specify the version of Docker Compose
+
+services:
+  # API Service
+  api:
+    image: backend-api:latest  # Use the latest backend API image
+    build: ./backend  # Path to the backend application
+    ports:
+      - "3000:3000"  # Map port 3000 on the host to port 3000 in the container
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgres://db_user:db_pass@db:5432/db_name  # PostgreSQL connection string
+      - REDIS_URL=redis://redis:6379  # Redis connection string
+    depends_on:
+      - db  # Ensure the database service starts first
+      - redis  # Ensure Redis starts before the API
+
+  # Database Service (PostgreSQL)
+  db:
+    image: postgres:13  # Use PostgreSQL version 13
+    volumes:
+      - db_data:/var/lib/postgresql/data  # Persist database data using a volume
+    environment:
+      - POSTGRES_USER=db_user
+      - POSTGRES_PASSWORD=db_pass
+      - POSTGRES_DB=db_name
+
+  # Redis Service
+  redis:
+    image: redis:latest  # Use the latest Redis image
+    ports:
+      - "6379:6379"  # Expose Redis on port 6379
+
+volumes:
+  db_data:  # Define a volume to persist database data
+
+networks:
+  default:
+    driver: bridge  # Default network for communication between containers
+ 

@@ -1,0 +1,62 @@
+/* Light Theme Variables */
+:root {
+    --background-color: #ffffff; /* Light background color */
+    --text-color: #000000; /* Dark text color */
+    --link-color: #1a0dab; /* Standard link color */
+    --button-background: #e0e0e0; /* Light button background */
+    --button-text: #000000; /* Dark button text */
+}
+
+/* Applying the light theme colors to the body */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+    color: var(--link-color);
+}
+
+a:hover {
+    color: #0c47a1; /* Darker shade for link hover effect */
+}
+
+/* Button styles for light mode */
+button {
+    background-color: var(--button-background);
+    color: var(--button-text);
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #d5d5d5; /* Darker shade on hover */
+}
+
+/* Header and Footer styles for light mode */
+header, footer {
+    background-color: #f5f5f5; /* Light gray for header/footer */
+    color: var(--text-color);
+    padding: 20px;
+}
+
+/* Additional light mode specific styles for other components */
+.card {
+    background-color: #ffffff; /* White background for cards */
+    border: 1px solid #ccc; /* Light gray border */
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.modal {
+    background-color: #ffffff; /* White background for modals */
+    color: var(--text-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+ 

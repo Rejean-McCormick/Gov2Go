@@ -1,0 +1,17 @@
+# File: /backend/devops/kubernetes/service.yml
+
+apiVersion: v1  # Define the API version
+kind: Service  # Specify that this is a Service object
+metadata:
+  name: backend-app-service  # Name of the service
+  labels:
+    app: backend-app
+spec:
+  selector:
+    app: backend-app  # Link the service to the backend application pods
+  ports:
+    - protocol: TCP
+      port: 80  # Port on which the service will be exposed
+      targetPort: 3000  # Target port of the backend application inside the pods
+  type: LoadBalancer  # Expose the service externally using a LoadBalancer
+ 

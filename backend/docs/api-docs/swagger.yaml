@@ -1,0 +1,61 @@
+openapi: "3.0.0"
+info:
+  title: "Gov2Go API"
+  description: "API documentation for Gov2Go backend services"
+  version: "1.0.0"
+
+paths:
+  /users:
+    get:
+      summary: "List all users"
+      operationId: "getUsers"
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+  /users/{userId}:
+    get:
+      summary: "Get user by ID"
+      operationId: "getUserById"
+      parameters:
+        - name: "userId"
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        '404':
+          description: "User not found"
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+ 

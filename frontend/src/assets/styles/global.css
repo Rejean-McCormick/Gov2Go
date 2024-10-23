@@ -1,0 +1,81 @@
+/* Reset and base styles for the application */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+    font-family: 'Arial', sans-serif; /* Set default font */
+    font-size: 16px; /* Base font size */
+    color: #333; /* Default text color */
+    background-color: #f8f8f8; /* Light background color */
+    line-height: 1.6; /* Set line height for readability */
+}
+
+/* Link styling */
+a {
+    color: #007bff; /* Primary color for links */
+    text-decoration: none; /* Remove default underline */
+}
+
+a:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+/* Button styling */
+button {
+    background-color: #007bff; /* Primary button color */
+    color: white; /* Text color */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px 15px; /* Padding for the button */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Transition for hover effect */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker shade for hover state */
+}
+
+/* Input field styling */
+input, textarea {
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px; /* Internal padding */
+    width: 100%; /* Full width */
+    box-sizing: border-box; /* Ensure padding is included in width */
+    font-size: 16px; /* Consistent font size */
+}
+
+/* Header and footer styles */
+header, footer {
+    background-color: #333; /* Dark background for headers/footers */
+    color: white; /* White text color */
+    padding: 20px; /* Padding for spacing */
+    text-align: center; /* Centered text */
+}
+
+/* Container class for general layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Media query for responsiveness */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px; /* Smaller font size for mobile */
+    }
+
+    .container {
+        padding: 10px; /* Reduced padding on mobile */
+    }
+
+    button {
+        padding: 8px 12px; /* Adjust button padding for mobile */
+    }
+}
+ 

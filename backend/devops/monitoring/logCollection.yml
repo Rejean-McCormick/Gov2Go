@@ -1,0 +1,59 @@
+# File: /backend/devops/monitoring/logCollection.yml
+
+sources:
+  # Application logs (in JSON format)
+  - type: file
+    path: /var/log/app/*.log
+    format: json
+    tag: app-logs
+
+  # Nginx logs (in Apache log format)
+  - type: file
+    path: /var/log/nginx/*.log
+    format: apache
+    tag: nginx-logs
+
+  # Database logs
+  - type: file
+    path: /var/log/postgresql/*.log
+    format: plain
+    tag: db-logs
+
+outputs:
+  # Forward logs to Elasticsearch
+  - type: elasticsearch
+    host: http://elasticsearch:9200
+    index: logs-%Y.%m.%d
+
+  # Forward logs to Fluentd
+  - type: fluentd
+    host: fluentd:24224
+    match: app-logs
+
+storage:
+  # Centralized log storage location
+  location: /var/log/centralized
+
+  # Retain logs for 30 days
+  retention_days: 30
+
+log_format:
+  # Define common log format for all sources
+  timestamp: "%Y-%m-%dT%H:%M:%S"
+  fields:
+    - host
+    - app_name
+    - log_level
+    - message
+
+security:
+  # Enable secure transport (TLS)
+  tls_enabled: true
+  tls_cert: /etc/ssl/certs/logforward.crt
+  tls_key: /etc/ssl/private/logforward.key
+
+performance:
+  # Batching configuration to optimize log forwarding
+  batch_size: 1000
+  flush_interval: 5s
+ 

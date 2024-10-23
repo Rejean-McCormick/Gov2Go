@@ -1,0 +1,26 @@
+{
+  "app.title": "Welcome to the Government2Go Platform",
+  "app.login": "Login",
+  "app.logout": "Logout",
+  "app.error.notFound": "Page Not Found",
+  "app.submit": "Submit",
+  "app.cancel": "Cancel",
+  "app.update": "Update",
+  "dashboard.title": "Dashboard",
+  "user.profile": "User Profile",
+  "settings.title": "Settings",
+  "settings.language": "Language",
+  "settings.theme": "Theme",
+  "settings.darkMode": "Dark Mode",
+  "settings.lightMode": "Light Mode",
+  "settings.notifications": "Notifications",
+  "settings.privacy": "Privacy Settings",
+  "user.name": "Name",
+  "user.email": "Email",
+  "form.saveChanges": "Save Changes",
+  "form.required": "This field is required",
+  "error.network": "Network error, please try again later",
+  "notifications.success": "Operation completed successfully",
+  "notifications.failure": "Operation failed, please try again"
+}
+ 
